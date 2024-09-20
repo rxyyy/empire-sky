@@ -75,9 +75,7 @@ SKYGFX = {
     radiosityRenderPasses=1,
     radiosityIntensity=40,
     radiosityIntensityLimit=0, -- use to override the intensity limit, 0 for use the value from timecyc (by default)
-    usePCTimecyc = false,
     RSPIPE_PC_CustomBuilding_PipeID = true,
-    fogDisabled = false,
     buildingExtraBrightness = 1,
     vehicleExtraBrightness = 1,
     ps_modulate_scale = 0.6,
@@ -102,13 +100,8 @@ SKYGFX = {
     CbOffset=0.0,		-- (default 0.0)
     CrScale=1.22,		-- (default 1.22)
     CrOffset=0.0,		-- (default 0.0)
-    -- Heli Rotor Fix
-    fixRotor = true, -- fix the helicopter rotor blur texture like in ps2
     rotorMaxAlpha = 120, -- max alpha for rotor
     -- special
-    vehicleClassicFx = true, -- show vc/iii liked vehicle big headlight
-    vehicleTrailLength = 0, -- length of buffered frame
-    vehicleTrailDrawDist = 20,
     vehicleHeadLightAlpha = 255,
     vehicleRearLightAlpha = 120,
     stochastic = true,

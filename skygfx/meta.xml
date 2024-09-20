@@ -7,8 +7,6 @@
     <script src="math.lua" type="client" cache="false"/>
     <script src="matrix.lua" type="client" cache="false"/>
     <script src="rtpool.lua" type="client" cache="false"/>
-    <script src="godrays/sun.lua" type="client" cache="false"/>
-    <script src="godrays/utils.lua" type="client" cache="false"/>
     <script src="fx/vehiclefx.lua" type="client" cache="false"/>
 	<script src="fx/rotor/rotor_v2.lua" type="client" cache="false"/>
     <script src="pipeline/buildingSimplePS.lua" type="client" cache="false"/>

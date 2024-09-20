@@ -1,100 +1,93 @@
 local isStarted = false
--- event
+
 function SKYGFX.onClientElementStreamIn()
-    if SKYGFX.vehicleClassicFx then
-        if getElementType( source ) == "vehicle" and not renderCache[source] then
-            initVehicleRenderCache(source) 
-        end
-    end
+	if getElementType(source) == 'vehicle' and not renderCache[source] then
+		initVehicleRenderCache(source)
+	end
 end
+
 function SKYGFX.onClientElementStreamOut()
-    if SKYGFX.vehicleClassicFx then
-        if renderCache[source]  then
-            destoryAllVehicleClassicLights(source)
-            renderCache[source] = nil
-        end
-    end
+	if renderCache[source] then
+		destoryAllVehicleClassicLights(source)
+		renderCache[source] = nil
+	end
 end
-function SKYGFX.onClientRender() 
-    renderBuildings()
-    doVehiclePipeline()
-    if SKYGFX.fixRotor then
-        renderRotorEffect()
-    end
+
+function SKYGFX.onClientRender()
+	renderBuildings()
+	renderVehicles()
+	renderRotorEffect()
 end
-function SKYGFX.onClientPreRender() 
-    if SKYGFX.vehicleClassicFx then
-        doClassicFXPreRender() 
-    end
+
+function SKYGFX.onClientPreRender()
+	doClassicFXPreRender()
 end
-function SKYGFX.onClientHUDRender() 
-    renderPostFX() 
+
+function SKYGFX.onClientHUDRender()
+	renderPostProcessing()
 end
+
 function SKYGFX.onClientElementDestroy()
-    if SKYGFX.vehicleClassicFx then
-        destoryAllVehicleClassicLights(source)
-    end
+	destoryAllVehicleClassicLights(source)
 end
 
-function SKYGFX.start() 
-    if isStarted then return end
-    -- init shits
-    resetColorFilter()
-    resetSunColor()
-    resetSkyGradient()
-    resetSunSize()
-    -- loadtxdDB
-    loadtxdDB()
-    -- start skygfx
-    initializeBuildingShaders()
-    initVehiclePiple()
-    initPostFx()
-    initWorldMiscFx()
+function SKYGFX.start()
+	if isStarted then
+		return
+	end
 
-    if SKYGFX.fixRotor then 
-        enableRotorPs2Fix()
-    end
-    --noZTest() -- no needed now
-    -- add events
-    addEventHandlerEx("onClientElementStreamIn", root,SKYGFX.onClientElementStreamIn)
-    addEventHandlerEx("onClientElementStreamOut", root,SKYGFX.onClientElementStreamOut)
-    addEventHandlerEx("onClientRender", root,SKYGFX.onClientRender,false,"low")
-    addEventHandlerEx("onClientPreRender", root,SKYGFX.onClientPreRender,false,"low")
-    addEventHandlerEx("onClientHUDRender", root,SKYGFX.onClientHUDRender,false,"low")
-    addEventHandlerEx("onClientElementDestroy", root,SKYGFX.onClientElementDestroy)
-    isStarted = true
+	resetColorFilter()
+	resetSunColor()
+	resetSkyGradient()
+	resetSunSize()
+	-- loadtxdDB
+	loadtxdDB()
+	-- start skygfx
+	initializeBuildingShaders()
+	initializeVehicleShaders()
+	initializePostProcessingShaders()
+	initializeWorldShaders()
+	enableRotorPs2Fix()
+
+	addEventHandlerEx('onClientElementStreamIn', root, SKYGFX.onClientElementStreamIn)
+	addEventHandlerEx('onClientElementStreamOut', root, SKYGFX.onClientElementStreamOut)
+	addEventHandlerEx('onClientRender', root, SKYGFX.onClientRender, false, 'low')
+	addEventHandlerEx('onClientPreRender', root, SKYGFX.onClientPreRender, false, 'low')
+	addEventHandlerEx('onClientHUDRender', root, SKYGFX.onClientHUDRender, false, 'low')
+	addEventHandlerEx('onClientElementDestroy', root, SKYGFX.onClientElementDestroy)
+
+	isStarted = true
 end
 
-function SKYGFX.stop() 
-    if not isStarted then return end
-    resetColorFilter()
-    resetSunColor()
-    resetSkyGradient()
-    resetSunSize()
-    if SKYGFX.fixRotor then 
-        disableRotorPs2Fix()
-    end
-    -- remove events
-    removeEventHandlerEx("onClientElementStreamIn", root,SKYGFX.onClientElementStreamIn)
-    removeEventHandlerEx("onClientElementStreamOut", root,SKYGFX.onClientElementStreamOut)
-    removeEventHandlerEx("onClientRender", root,SKYGFX.onClientRender)
-    removeEventHandlerEx("onClientPreRender", root,SKYGFX.onClientPreRender)
-    removeEventHandlerEx("onClientHUDRender", root,SKYGFX.onClientHUDRender)
-    removeEventHandlerEx("onClientElementDestroy", root,SKYGFX.onClientElementDestroy)
-    isStarted = false
+function SKYGFX.stop()
+	if not isStarted then
+		return
+	end
+
+	resetColorFilter()
+	resetSunColor()
+	resetSkyGradient()
+	resetSunSize()
+
+	disableRotorPs2Fix()
+
+	-- remove events
+	removeEventHandlerEx('onClientElementStreamIn', root, SKYGFX.onClientElementStreamIn)
+	removeEventHandlerEx('onClientElementStreamOut', root, SKYGFX.onClientElementStreamOut)
+	removeEventHandlerEx('onClientRender', root, SKYGFX.onClientRender)
+	removeEventHandlerEx('onClientPreRender', root, SKYGFX.onClientPreRender)
+	removeEventHandlerEx('onClientHUDRender', root, SKYGFX.onClientHUDRender)
+	removeEventHandlerEx('onClientElementDestroy', root, SKYGFX.onClientElementDestroy)
+
+	isStarted = false
 end
 
-
-addEventHandler( "onClientResourceStart",resourceRoot,function ( startedRes )
-    if SKYGFX.autoStart then 
-        SKYGFX.start() 
-    end
-    
+addEventHandler('onClientResourceStart', resourceRoot, function(startedRes)
+	if SKYGFX.autoStart then
+		SKYGFX.start()
+	end
 end)
 
-addEventHandler( "onClientResourceStop",resourceRoot,
-    function (  )
-        SKYGFX.stop() 
-    end
-)
-
+addEventHandler('onClientResourceStop', resourceRoot, function()
+	SKYGFX.stop()
+end)

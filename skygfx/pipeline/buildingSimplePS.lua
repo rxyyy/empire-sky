@@ -27,62 +27,66 @@ end
 
 function renderBuildings()
 	for _, buildingShader in ipairs(buildingShaders) do
-		local amb = TIMECYC:getTimeCycleValue("amb")
+		local amb = TIMECYC:getTimeCycleValue('amb')
 
 		if not amb then
 			return
 		end
 
-		local dirMult = TIMECYC:getTimeCycleValue("dirMult") * SKYGFX.buildingExtraBrightness
+		local dirMult = TIMECYC:getTimeCycleValue('dirMult')
 
 		if not dirMult then
 			return
 		end
 
+		dirMult = dirMult * SKYGFX.buildingExtraBrightness
+
 		local r, g, b = unpack(amb)
-		buildingAmbient = { r * dirMult / 0xFF, g * dirMult / 0xFF, b * dirMult / 0xFF, 0 }
-		dxSetShaderValue(buildingShader, "ambient", buildingAmbient)
-		-- texture material color
-		dxSetShaderValue(buildingShader, "matCol", { 1, 1, 1, 1 })
+		local buildingAmbient = { r * dirMult / 0xFF, g * dirMult / 0xFF, b * dirMult / 0xFF, 0 }
+
+		dxSetShaderValue(buildingShader, 'ambient', buildingAmbient)
+		dxSetShaderValue(buildingShader, 'matCol', { 1, 1, 1, 1 })
+
 		--day / night params
 		local currentHour, currentMinute = getTime()
+
 		updateDayNightBalance(currentHour, currentMinute)
-		local dayparam = {}
-		local nightparam = {}
-		if SKYGFX.RSPIPE_PC_CustomBuilding_PipeID then
-			dayparam = { 0, 0, 0, 1 }
-			nightparam = { 1, 1, 1, 1 }
-		else
-			dayparam = { 1.0 - dayNightBalance, 1.0 - dayNightBalance, 1.0 - dayNightBalance, wetRoadsEffect }
-			nightparam = { dayNightBalance, dayNightBalance, dayNightBalance, 1.0 - wetRoadsEffect }
+
+		local dayParameters = { 0, 0, 0, 1 }
+		local nightParameters = { 1, 1, 1, 1 }
+
+		if not SKYGFX.RSPIPE_PC_CustomBuilding_PipeID then
+			dayParameters = { 1.0 - dayNightBalance, 1.0 - dayNightBalance, 1.0 - dayNightBalance, wetRoadsEffect }
+			nightParameters = { dayNightBalance, dayNightBalance, dayNightBalance, 1.0 - wetRoadsEffect }
 		end
-		dxSetShaderValue(buildingShader, "dayparam", dayparam)
-		dxSetShaderValue(buildingShader, "nightparam", nightparam)
-		dxSetShaderValue(buildingShader, "surfAmb", 1)
-		--fog
-		local fog_st = TIMECYC:getTimeCycleValue("fogSt")
-		local fog_end = TIMECYC:getTimeCycleValue("farClp")
-		local fog_range = math.abs(fog_st - fog_end)
-		dxSetShaderValue(buildingShader, "fogStart", fog_st)
-		dxSetShaderValue(buildingShader, "fogEnd", fog_end)
-		dxSetShaderValue(buildingShader, "fogRange", fog_range)
-		dxSetShaderValue(buildingShader, "fogDisable", SKYGFX.fogDisabled)
+
+		dxSetShaderValue(buildingShader, 'dayparam', dayParameters)
+		dxSetShaderValue(buildingShader, 'nightparam', nightParameters)
+		dxSetShaderValue(buildingShader, 'surfAmb', 1)
+
+		local fogBegin = TIMECYC:getTimeCycleValue('fogSt')
+		local fogEnd = TIMECYC:getTimeCycleValue('farClp')
+		local fogRange = math.abs(fogBegin - fogEnd)
+
+		dxSetShaderValue(buildingShader, 'fogStart', fogBegin)
+		dxSetShaderValue(buildingShader, 'fogEnd', fogEnd)
+		dxSetShaderValue(buildingShader, 'fogRange', fogRange)
 	end
 end
 
 function initializeBuildingShaders()
 	local buildingDistance = SKYGFX.building_dist
-	local buildingSimpleShader = dxCreateShader("shader/buildingSimplePSDual.fx", 0, buildingDistance, false, "world")
+	local buildingSimpleShader = dxCreateShader('shader/buildingSimplePSDual.fx', 0, buildingDistance, false, 'world')
 
 	if isElement(buildingSimpleShader) then
-		dxSetShaderValue(buildingSimpleShader, "zwriteThreshold", SKYGFX.zwriteThreshold)
+		dxSetShaderValue(buildingSimpleShader, 'zwriteThreshold', SKYGFX.zwriteThreshold)
 
 		table.insert(buildingShaders, buildingSimpleShader)
 	else
 		assert(false)
 	end
 
-	local buildingStochasticShader = dxCreateShader("shader/simpleStochasticPS.fx", 0, buildingDistance, false, "world")
+	local buildingStochasticShader = dxCreateShader('shader/simpleStochasticPS.fx', 0, buildingDistance, false, 'world')
 
 	if isElement(buildingStochasticShader) then
 		table.insert(buildingShaders, buildingStochasticShader)
@@ -99,7 +103,7 @@ function initializeBuildingShaders()
 	end
 
 	for _, buildingShader in ipairs(buildingShaders) do
-		dxSetShaderValue(buildingShader, "colorScale", colorScale)
+		dxSetShaderValue(buildingShader, 'colorScale', colorScale)
 
 		for _, texture in pairs(textureListTable.BuildingPSRemoveList) do
 			engineRemoveShaderFromWorldTexture(buildingShader, texture)
