@@ -94,7 +94,6 @@ SKYGFX = {
     sunZTestLength = 3000, -- sun ztest length
     -- misc
     sunGlare = true, -- this adds the vehicle sun glares like in vice city.
-    sunGodray = false, -- this adds the vehicle sun godrays.
     -- Modify final colors in YCbCr space
     YCbCrCorrection=0,	-- turns this on or off (default 0)
     lumaScale=0.8588,	-- multiplier for Y (default 0.8588)
@@ -111,18 +110,11 @@ SKYGFX = {
     vehicleTrailLength = 0, -- length of buffered frame
     vehicleTrailDrawDist = 20,
     vehicleHeadLightAlpha = 255,
-    vehicleRearLightAlpha = 120, 
-    trashOnGround = false, -- toogle vc/iii like trash on ground
-    num_rubbish_sheets = 64,
-    rubbish_max_dist = 23,
-    rubbish_fade_dist = 20,
-    stochastic = true, 
+    vehicleRearLightAlpha = 120,
+    stochastic = true,
     building_dist = 1000,
-
-    -- debug mode, enable for render all the shit bits
-    debug = false
-   
 }
+
 w, h = guiGetScreenSize()
 
 function getPropertyFromVars(vars,property) 
@@ -136,7 +128,8 @@ function getPropertyFromVars(vars,property)
     end
     return nil
 end
-function loadtxdDB() 
+
+function loadtxdDB()
     local f = fileOpen("models/texdb.txt",true)
     local str = fileRead(f,fileGetSize(f))
     fileClose(f)
@@ -163,5 +156,4 @@ function loadtxdDB()
             --]]
         end
 	end
-    
 end

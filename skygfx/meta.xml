@@ -8,18 +8,13 @@
     <script src="matrix.lua" type="client" cache="false"/>
     <script src="rtpool.lua" type="client" cache="false"/>
     <script src="godrays/sun.lua" type="client" cache="false"/>
-    <script src="godrays/sunshader.lua" type="client" cache="false"/>
     <script src="godrays/utils.lua" type="client" cache="false"/>
     <script src="fx/vehiclefx.lua" type="client" cache="false"/>
-    <script src="fx/rubbish.lua" type="client" cache="false"/>
 	<script src="fx/rotor/rotor_v2.lua" type="client" cache="false"/>
-    <script src="pipeline/utils.lua" type="client" cache="false"/>
-    <script src="pipeline/building.lua" type="client" cache="false"/>
     <script src="pipeline/buildingSimplePS.lua" type="client" cache="false"/>
     <script src="pipeline/vehiclePipe.lua" type="client" cache="false"/>
     <script src="pipeline/postfx.lua" type="client" cache="false"/>
     <script src="pipeline/worldPipe.lua" type="client" cache="false"/>
-    <script src="debug.lua" type="client" cache="false"/>
     <script src="main.lua" type="client" cache="false"/>
     <script src="export.lua" type="client" cache="false"/>
 	

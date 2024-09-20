@@ -55,14 +55,6 @@ function Sun:update()
 	self.x = sunVec.x
 	self.y = sunVec.y
 	self.z = sunVec.z
-
-	
-	--self.posVec = {x,y,z}
-	if SKYGFX.debug then
-		dxDrawLine3D(vecPlayer.x,vecPlayer.y,vecPlayer.z,sunVec.x,sunVec.y,sunVec.z, tocolor(255, 255, 0, 255), 4)
-	end
-	-- print(vecPlayer.x,vecPlayer.y,vecPlayer.z)
-	-- print(sunVec.x,sunVec.y,sunVec.z)
 end
 
 function time2Height(time)
@@ -78,5 +70,4 @@ end
 
 function Sun:destructor()	
 	removeEventHandler("onClientRender", root, self.m_Update)
-
 end

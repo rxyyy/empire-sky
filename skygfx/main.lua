@@ -16,19 +16,10 @@ function SKYGFX.onClientElementStreamOut()
     end
 end
 function SKYGFX.onClientRender() 
-    doBuildingSimplePS()
+    renderBuildings()
     doVehiclePipeline()
     if SKYGFX.fixRotor then
         renderRotorEffect()
-    end
-    -- if SKYGFX.disableZTest then -- use the MTA 1.6.0 Native function instead
-    --     doSunFX() 
-    -- end
-    if SKYGFX.vehicleClassicFx then
-        doClassicFX() 
-    end
-    if SKYGFX.trashOnGround then
-        --doTrashOnGround()
     end
 end
 function SKYGFX.onClientPreRender() 
@@ -45,8 +36,6 @@ function SKYGFX.onClientElementDestroy()
     end
 end
 
-
-
 function SKYGFX.start() 
     if isStarted then return end
     -- init shits
@@ -57,13 +46,11 @@ function SKYGFX.start()
     -- loadtxdDB
     loadtxdDB()
     -- start skygfx
-    initBuildingSimplePSPipeline()
+    initializeBuildingShaders()
     initVehiclePiple()
     initPostFx()
     initWorldMiscFx()
-    if SKYGFX.sunGodray then
-        enableSunShader()
-    end
+
     if SKYGFX.fixRotor then 
         enableRotorPs2Fix()
     end

@@ -1,0 +1,13 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+indent_size = 4
+indent_style = tab
+insert_final_newline = true
+quote_style = double
+space_around_table_append_operator = false
+space_around_table_field_list = true
+space_before_attribute = true
+trim_trailing_whitespace = true
