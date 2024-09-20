@@ -187,21 +187,19 @@ function renderPostProcessing()
 	local rgba1 = TIMECYC:getTimeCycleValue('postfx1')
 	local rgba2 = TIMECYC:getTimeCycleValue('postfx2')
 
-	if SKYGFX.colorFilter == 'PS2' then
-		-- Gotta fix alpha for effects that assume PC alpha range
-		-- clamping this is important!
-		if rgba1[4] >= 128 then
-			rgba1[4] = 255
-		else
-			rgba1[4] = rgba1[4] * 2
-		end
-
-		if rgba2[4] >= 128 then
-			rgba2[4] = 255
-		else
-			rgba2[4] = rgba2[4] * 2
-		end
-
-		doColorFilter('PS2', rgba1, rgba2)
+	-- Gotta fix alpha for effects that assume PC alpha range
+	-- clamping this is important!
+	if rgba1[4] >= 128 then
+		rgba1[4] = 255
+	else
+		rgba1[4] = rgba1[4] * 2
 	end
+
+	if rgba2[4] >= 128 then
+		rgba2[4] = 255
+	else
+		rgba2[4] = rgba2[4] * 2
+	end
+
+	doColorFilter('PS2', rgba1, rgba2)
 end

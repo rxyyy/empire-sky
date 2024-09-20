@@ -65,7 +65,6 @@ SKYGFX = {
     vehiclePipe= "PS2", -- values: "PS2", "PC", "Xbox", "Spec" (like PS2 but with specular lighting), "Neo" (like III/VC Xbox), "LCS", "VCS", "Mobile", "Env"
     envPower=1.0, --Env specular light power (the higher the smaller the highlight)
     -- postfx
-    colorFilter = "PS2", -- values: "PS2", "PC", "Mobile", (needs colorcycle.dat), "None"
     blurLeft = 0.0012, -- Override PS2 color filter blur offset
     blurTop = 0.0012, -- to disable blur set these to 0
     blurRight = 0.0012,
