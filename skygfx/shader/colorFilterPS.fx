@@ -9,6 +9,9 @@ float2 offset_y = 0;
 sampler Sampler0 = sampler_state
 {
     Texture = (tex);
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+    AddressW = CLAMP;
 };
 struct PS_INPUT
 {

@@ -66,14 +66,14 @@ SKYGFX = {
     envPower=1.0, --Env specular light power (the higher the smaller the highlight)
     -- postfx
     colorFilter = "PS2", -- values: "PS2", "PC", "Mobile", (needs colorcycle.dat), "None"
-    blurLeft = 0.0002, -- Override PS2 color filter blur offset 
-    blurTop = 0.0002, -- to disable blur set these to 0
-    blurRight = 0.0002,
-    blurBottom = 0.0002,
+    blurLeft = 0.0012, -- Override PS2 color filter blur offset
+    blurTop = 0.0012, -- to disable blur set these to 0
+    blurRight = 0.0012,
+    blurBottom = 0.0012,
     doRadiosity=true,-- Enable or disable radiosity
     radiosityFilterPasses=2,
     radiosityRenderPasses=1,
-    radiosityIntensity=30,
+    radiosityIntensity=40,
     radiosityIntensityLimit=0, -- use to override the intensity limit, 0 for use the value from timecyc (by default)
     usePCTimecyc = false,
     RSPIPE_PC_CustomBuilding_PipeID = true,
@@ -87,14 +87,14 @@ SKYGFX = {
     --grassFixPlacement=true, 0x5DADB7, need fuck the memory
     grassBackfaceCull=true,
     -- world fx
-    ps2Modulate=false,
+    ps2Modulate=true,
     dualPass=true,
     zwriteThreshold=128,
-    disableZTest = true, -- if you want ps2 big sun lens
+    disableZTest = false, -- if you want ps2 big sun lens
     sunZTestLength = 3000, -- sun ztest length
     -- misc
     sunGlare = true, -- this adds the vehicle sun glares like in vice city.
-    sunGodray = true, -- this adds the vehicle sun godrays.
+    sunGodray = false, -- this adds the vehicle sun godrays.
     -- Modify final colors in YCbCr space
     YCbCrCorrection=0,	-- turns this on or off (default 0)
     lumaScale=0.8588,	-- multiplier for Y (default 0.8588)
@@ -108,16 +108,16 @@ SKYGFX = {
     rotorMaxAlpha = 120, -- max alpha for rotor
     -- special
     vehicleClassicFx = true, -- show vc/iii liked vehicle big headlight
-    vehicleTrailLength = 6, -- length of buffered frame
+    vehicleTrailLength = 0, -- length of buffered frame
     vehicleTrailDrawDist = 20,
     vehicleHeadLightAlpha = 255,
     vehicleRearLightAlpha = 120, 
-    trashOnGround = true, -- toogle vc/iii like trash on ground
+    trashOnGround = false, -- toogle vc/iii like trash on ground
     num_rubbish_sheets = 64,
     rubbish_max_dist = 23,
     rubbish_fade_dist = 20,
     stochastic = true, 
-    building_dist = 200,
+    building_dist = 1000,
 
     -- debug mode, enable for render all the shit bits
     debug = false

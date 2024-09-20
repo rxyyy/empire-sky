@@ -154,22 +154,6 @@ function doVehicleClassicLight(veh)
         end
     end
 
-    if getVehicleLightState(veh,1) == 0 then
-        createOrUpateVehicleLight("front_l","light_front_main","l") 
-    else
-        destroyVehicleLight("front_l") 
-    end
-    if getVehicleLightState(veh,0) == 0 then
-        createOrUpateVehicleLight("front_r","light_front_main","r")
-    else
-        destroyVehicleLight("front_r") 
-    end
-    if getVehicleLightState(veh,1) == 0 or getVehicleLightState(veh,1) == 0 then
-        createOrUpateVehicleLight("front_c","light_front_main","c") 
-    else
-        destroyVehicleLight("front_c") 
-    end
-
     if getVehicleLightState(veh,2) == 0 then
         createOrUpateVehicleLight("back_l","light_rear_main","l")
     else
