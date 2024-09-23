@@ -34,7 +34,6 @@
     <file src="fx/rotor/model/rotor.txd" type="client"/>
     <file src="fx/rotor/model/black64aa.dds" type="client"/>
 	<file src="fx/rotor/rotor.fx" cache="false"/>
-	<file src="models/texdb.txt" cache="false"/>
 
     <include resource="timecyc"/>
     <include resource="custom_coronas"/>
