@@ -1,12 +1,8 @@
---[[
-    POST FX PIPELINE (PORT FROM SKYGFX)
-]]
-shaderBlurPS = nil
-shaderRadiosityPS = nil
-shaderAddblend = nil
-screenSource = nil
-screenSource_2 = nil
-screenSource_3 = nil
+local shaderBlurPS = nil
+local shaderRadiosityPS = nil
+local shaderAddblend = nil
+local screenSource = nil
+local screenSource_2 = nil
 
 local m_YUV2RGB = {
 	{ 0.299, -0.168736, 0.500 },
@@ -21,7 +17,7 @@ local m_RGB2YUV = {
 	{ 0.000, 0.000,     0.000 },
 }
 
-function doRadiosity(intensityLimit, filterPasses, renderPasses, intensity)
+local function doRadiosity(intensityLimit, filterPasses, renderPasses, intensity)
 	params = {}
 	params[1] = 0
 	params[2] = 1 / h
@@ -52,7 +48,6 @@ function doRadiosity(intensityLimit, filterPasses, renderPasses, intensity)
 	rt = rt_blurHorizontal
 	dxSetRenderTarget()
 	dxDrawImage(0, 0, w, h, rt, 0, 0, 0, tocolor(255, 255, 255, intensity))
-
 
 	-- do radiosity
 	intensityLimit = intensityLimit / 255.0;
@@ -90,27 +85,22 @@ function doRadiosity(intensityLimit, filterPasses, renderPasses, intensity)
 	dxDrawImage(0, 0, w, h, shaderAddblend, 0, 0, 0, tocolor(255, 255, 255, SKYGFX.radiosityIntensity))
 end
 
-function doColorFilter(pipeline, rgba1, rgba2)
-	pipeline = pipeline or 'PS2'
-	if not rgba1 then return end
-
+local function doColorFilter(rgba1, rgba2)
 	local r1, g1, b1, a1 = unpack(rgba1)
 	local r2, g2, b2, a2 = unpack(rgba2)
 
 	-- Apply MODULATE2X if pipeline is PS2
-	if pipeline == 'PS2' then
-		r1, g1, b1, a1 = r1 * 2, g1 * 2, b1 * 2, a1 * 2
-		r2, g2, b2, a2 = r2 * 2, g2 * 2, b2 * 2, a2 * 2
+	r1, g1, b1, a1 = r1 * 2, g1 * 2, b1 * 2, a1 * 2
+	r2, g2, b2, a2 = r2 * 2, g2 * 2, b2 * 2, a2 * 2
 
-		-- Clamp the values to 255
-		r1, g1, b1, a1 = math.min(r1, 255), math.min(g1, 255), math.min(b1, 255), math.min(a1, 255)
-		r2, g2, b2, a2 = math.min(r2, 255), math.min(g2, 255), math.min(b2, 255), math.min(a2, 255)
+	-- Clamp the values to 255
+	r1, g1, b1, a1 = math.min(r1, 255), math.min(g1, 255), math.min(b1, 255), math.min(a1, 255)
+	r2, g2, b2, a2 = math.min(r2, 255), math.min(g2, 255), math.min(b2, 255), math.min(a2, 255)
 
-		-- Scale down to compensate for brightness
-		local scale = SKYGFX.ps_modulate_scale
-		r1, g1, b1, a1 = r1 * scale, g1 * scale, b1 * scale, a1 * scale
-		r2, g2, b2, a2 = r2 * scale, g2 * scale, b2 * scale, a2 * scale
-	end
+	-- Scale down to compensate for brightness
+	local scale = SKYGFX.ps_modulate_scale
+	r1, g1, b1, a1 = r1 * scale, g1 * scale, b1 * scale, a1 * scale
+	r2, g2, b2, a2 = r2 * scale, g2 * scale, b2 * scale, a2 * scale
 
 	dxUpdateScreenSource(screenSource_2, true)
 	local w, h = dxGetMaterialSize(screenSource_2)
@@ -134,6 +124,7 @@ end
 
 function initializePostProcessingShaders()
 	resetColorFilter()
+
 	shaderBlurPS = dxCreateShader('shader/blurPS.fx', 0, 0, false)
 	shaderRadiosityPS = dxCreateShader('shader/radiosity.fx', 0, 0, false)
 	shaderAddblend = dxCreateShader('shader/addblend.fx', 0, 0, false)
@@ -144,7 +135,6 @@ function initializePostProcessingShaders()
 	local width, height = guiGetScreenSize()
 	screenSource = dxCreateScreenSource(width, height)
 	screenSource_2 = dxCreateScreenSource(width, height)
-	screenSource_3 = dxCreateScreenSource(width, height)
 
 	setColorFilter(0, 0, 0, 0, 0, 0, 0, 0)
 	local offset_x = math.abs(SKYGFX.blurLeft + SKYGFX.blurRight) / 2
@@ -177,12 +167,9 @@ function renderPostProcessing()
 	RTPool.frameStart()
 	DebugResults.frameStart()
 
-	if SKYGFX.doRadiosity == true then
-		local radiosityIntensityLimit = SKYGFX.radiosityIntensityLimit == 0 and
-			TIMECYC:getTimeCycleValue('radiosityLimit') or SKYGFX.radiosityIntensityLimit
-		doRadiosity(radiosityIntensityLimit, SKYGFX.radiosityFilterPasses, SKYGFX.radiosityRenderPasses,
-			SKYGFX.radiosityIntensity)
-	end
+	local radiosityLimit = TIMECYC:getTimeCycleValue('radiosityLimit')
+
+	doRadiosity(radiosityLimit, SKYGFX.radiosityFilterPasses, SKYGFX.radiosityRenderPasses, SKYGFX.radiosityIntensity)
 
 	local rgba1 = TIMECYC:getTimeCycleValue('postfx1')
 	local rgba2 = TIMECYC:getTimeCycleValue('postfx2')
@@ -201,5 +188,5 @@ function renderPostProcessing()
 		rgba2[4] = rgba2[4] * 2
 	end
 
-	doColorFilter('PS2', rgba1, rgba2)
+	doColorFilter(rgba1, rgba2)
 end

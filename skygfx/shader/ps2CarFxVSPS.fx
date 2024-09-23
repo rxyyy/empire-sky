@@ -1,19 +1,14 @@
 #include "mta-helper.fx"
-//texture sTex0 < string textureState="0,Texture"; >;
+
 texture tx1;
 texture tx2;
 
-
 float4		envXform = float4(0,0,1,1);
-float3x3	envmat;
-float3x3	specmat;
-//float3		lightdir;
 
 float fxSwitch = 2.0f;
 float shininess = 1;
-float specularity = 0.1;
+float specularity = 0.025;
 float lightmult = 1;
-
 
 struct VS_INPUT {
 	float4 Position	: POSITION;

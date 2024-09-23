@@ -40,9 +40,9 @@ function SKYGFX.start()
 	resetSunColor()
 	resetSkyGradient()
 	resetSunSize()
-	-- loadtxdDB
+
 	loadtxdDB()
-	-- start skygfx
+
 	initializeBuildingShaders()
 	initializeVehicleShaders()
 	initializePostProcessingShaders()

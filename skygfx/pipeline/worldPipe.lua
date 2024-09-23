@@ -11,16 +11,9 @@ function doClassicFXPreRender()
 end
 
 function initializeWorldShaders()
-	worldShaderGrass = dxCreateShader('shader/grass.fx', 0, 0, false, 'world,object')
+	local vehicles = getElementsByType('vehicle', root, true)
 
-	if isElement(worldShaderGrass) then
-		engineApplyShaderToWorldTexture(worldShaderGrass, 'tx*')
-		dxSetShaderValue(worldShaderGrass, 'backfacecull', SKYGFX.grassBackfaceCull)
-	else
-		assert(false)
-	end
-
-	for _, vehicle in ipairs(getElementsByType('vehicle', root, true)) do
+	for _, vehicle in ipairs(vehicles) do
 		initVehicleRenderCache(vehicle)
 	end
 

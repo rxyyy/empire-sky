@@ -62,27 +62,22 @@ SKYGFX = {
     -- start by default
     autoStart = true,
     -- vehicle
-    vehiclePipe= "PS2", -- values: "PS2", "PC", "Xbox", "Spec" (like PS2 but with specular lighting), "Neo" (like III/VC Xbox), "LCS", "VCS", "Mobile", "Env"
     envPower=1.0, --Env specular light power (the higher the smaller the highlight)
     -- postfx
     blurLeft = 0.0012, -- Override PS2 color filter blur offset
     blurTop = 0.0012, -- to disable blur set these to 0
     blurRight = 0.0012,
     blurBottom = 0.0012,
-    doRadiosity=true,-- Enable or disable radiosity
     radiosityFilterPasses=2,
     radiosityRenderPasses=1,
     radiosityIntensity=40,
-    radiosityIntensityLimit=0, -- use to override the intensity limit, 0 for use the value from timecyc (by default)
     RSPIPE_PC_CustomBuilding_PipeID = true,
     buildingExtraBrightness = 1,
     vehicleExtraBrightness = 1,
     ps_modulate_scale = 0.6,
-
     -- grass
     grassAddAmbient=false, --0x5DAEC8, need fuck the memory, not fully done.
     --grassFixPlacement=true, 0x5DADB7, need fuck the memory
-    grassBackfaceCull=true,
     -- world fx
     ps2Modulate=true,
     dualPass=true,
@@ -90,7 +85,6 @@ SKYGFX = {
     disableZTest = false, -- if you want ps2 big sun lens
     sunZTestLength = 3000, -- sun ztest length
     -- misc
-    sunGlare = true, -- this adds the vehicle sun glares like in vice city.
     -- Modify final colors in YCbCr space
     YCbCrCorrection=0,	-- turns this on or off (default 0)
     lumaScale=0.8588,	-- multiplier for Y (default 0.8588)
@@ -141,11 +135,6 @@ function loadtxdDB()
                 affiliate = getPropertyFromVars(p,"affiliate"),
                 detailtile = getPropertyFromVars(p,"detailtile"),
             }
-            --[[
-            if textureListTable.txddb[model].zwriteThreshold then 
-                iprint(textureListTable.txddb[model])
-            end
-            --]]
         end
 	end
 end
